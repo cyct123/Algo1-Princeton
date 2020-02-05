@@ -1,41 +1,46 @@
+import edu.princeton.cs.algs4.Date;
 import edu.princeton.cs.algs4.StdOut;
 
 
-public class SmartDate
+public class Transaction
 {
-    private final int month;
-    private final int day;
-    private final int year;
+    private final String who;
+    private final Date when;
+    private final double amount;
 
-    public SmartDate(int m, int d, int y)
+    public Transaction(String name, Date time, double value)
     {
-        if ((m < 1) || (m > 12))
-            throw new IllegalArgumentException("Month should between 1 and 12");
-        if ((d < 1) || (d > 31))
-            throw new IllegalArgumentException("Day should between 1 and 31");
-        month = m;
-        day = d;
-        year = y;
+        who = name;
+        when = time;
+        amount = value;
     }
 
-    public int month()
+    public Transaction(String transaction)
     {
-        return month;
+        String[] a = transaction.split("\\s+");
+        who = a[0];
+        when = new Date(a[1]);
+        amount = Double.parseDouble(a[2]);
     }
 
-    public int day()
+    public String who()
     {
-        return day;
+        return who;
     }
 
-    public int year()
+    public Date when()
     {
-        return year;
+        return when;
+    }
+
+    public double amount()
+    {
+        return amount;
     }
 
     public String toString()
     {
-        return month() + "/" + day() + "/" + year();
+        return who() + " " + when() + " " + amount();
     }
 
     public boolean equals(Object x)
@@ -43,18 +48,22 @@ public class SmartDate
         if (this == x) return true;
         if (x == null) return false;
         if (this.getClass() != x.getClass()) return false;
-        SmartDate that = (SmartDate) x;
-        if (this.day != that.day) return false;
-        if (this.month != that.month) return false;
-        if (this.year != that.year) return false;
+        Transaction that = (Transaction) x;
+        if (!this.who.equals(that.who)) return false;
+        if (!this.when.equals(that.when)) return false;
+        if (this.amount != that.amount) return false;
         return true;
     }
 
     public static void main(String[] args) {
-        int m = Integer.parseInt(args[0]);
-        int d = Integer.parseInt(args[1]);
-        int y = Integer.parseInt(args[2]);
-        SmartDate date = new SmartDate(m, d, y);
-        StdOut.println(date);
+        String who = args[0];
+        Date when = new Date(args[1]);
+        double amount = Double.parseDouble(args[2]);
+        Transaction t1 = new Transaction(who, when, amount);
+        String s = "james 12/31/2009 11.99";
+        Transaction t2 = new Transaction(s);
+        StdOut.println(t1);
+        StdOut.println(t2);
+        StdOut.println(t1.equals(t2));
     }
 }

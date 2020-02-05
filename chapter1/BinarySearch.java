@@ -2,6 +2,7 @@ import java.util.Arrays;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.Counter;
 
 
 public class BinarySearch
@@ -53,6 +54,22 @@ public class BinarySearch
             return mid;
     }
 
+    public static int rank(int key, int[]a , Counter c) {
+        int lo = 0;
+        int hi = a.length - 1;
+        while (lo <= hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (key < a[mid])
+                hi = mid - 1;
+            else if (key > a[mid])
+                lo = mid + 1;
+            else
+                return mid;
+            c.increment();
+        }
+        return -1;
+    }
+
     public static int[] remove_duplicate(int[] a)
     {
         int len = a.length;
@@ -70,6 +87,7 @@ public class BinarySearch
 
     public static void main(String[] args)
     {
+        Counter c = new Counter("examined Counter");
         int[] whitelist = In.readInts(args[0]);
         Arrays.sort(whitelist);
         whitelist = remove_duplicate(whitelist);
@@ -77,13 +95,14 @@ public class BinarySearch
         while (!StdIn.isEmpty())
         {
             int key = StdIn.readInt();
-            StdOut.printf("%d %d\n", key, count(key, whitelist));
+            //StdOut.printf("%d %d\n", key, count(key, whitelist));
             //StdOut.printf("%d %d\n", key, rank(key, whitelist));
-            //int pos = rank(key, whitelist);
-            //if (pos < 0)
-            //    StdOut.println("+" + key);
-            //else
-            //    StdOut.printf("%d %d %d\n", key, pos, whitelist[pos]);
+            int pos = rank(key, whitelist, c);
+            if (pos < 0)
+                StdOut.println("+" + key);
+            else
+                StdOut.printf("%d %d %d\n", key, pos, whitelist[pos]);
+            StdOut.println(c);
         }
     }
 }

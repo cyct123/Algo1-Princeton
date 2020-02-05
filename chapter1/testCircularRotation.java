@@ -15,6 +15,6 @@ public class testCircularRotation {
     }
 
     public static boolean is_circular_rotation(String s, String t) {
-        return true if ((s + s).indexOf(t) > 0) else false;
+        return ((s + s).indexOf(t) > 0) ? true : false;
     }
 }

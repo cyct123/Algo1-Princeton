@@ -3,8 +3,8 @@ import edu.princeton.cs.algs4.StdOut;
 
 public class Rational
 {
-    public final long num;
-    public final long deno;
+    private long num;
+    private long deno;
 
     public Rational(int numerator, int denominator)
     {

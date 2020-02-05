@@ -1,8 +1,9 @@
+import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 
-public class Point2D
+public class testPoint2D
 {
     public static void main (String[] args) {
         int N = Integer.parseInt(args[0]);

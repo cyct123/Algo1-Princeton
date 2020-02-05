@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.Interval1D;
 
@@ -17,6 +18,7 @@ public class testInterval1D
             String[] nums = line.split("\\s+");
             double min = Double.parseDouble(nums[0]);
             double max = Double.parseDouble(nums[1]);
+            StdOut.println("" + min + "" + max);
             intervals[i] = new Interval1D(min, max);
         }
         for (int i = 0; i < N; i++)
