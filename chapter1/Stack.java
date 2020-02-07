@@ -154,6 +154,23 @@ public class Stack<Item> implements Iterable<Item> {
         return first.item;
     }
 
+    public boolean is_underflow(String s)
+    {
+        String[] inputs = s.split("\\s+");
+        int pushed = 0;
+        int poped = 0;
+        for (int i = 0; i < inputs.length; i++) {
+            if (inputs[i] != "-")
+                pushed++;
+            else {
+                if (poped == pushed)
+                    return true;
+                poped++;
+            }
+        }
+        return false;
+    }
+
     /**
      * Returns a string representation of this stack.
      *
