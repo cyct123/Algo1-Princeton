@@ -7,12 +7,12 @@ public class PercolationStats {
 
     private final int trials;
     private final double[] frequency;
-    private final double CONFIDENCE_95 = 1.96;
-    private double mean;
-    private double stddev;
+    private static final double CONFIDENCE_95 = 1.96;
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {
+        if ((n <= 0) || (trials <= 0))
+            throw new IllegalArgumentException("n or trials must be large than 0");
         this.trials = trials;
         frequency = new double[trials];
         for (int i = 0; i < trials; i++) {
@@ -28,14 +28,12 @@ public class PercolationStats {
 
     // sample mean of percolation threshold
     public double mean() {
-        mean = StdStats.mean(frequency);
-        return mean;
+        return StdStats.mean(frequency);
     }
 
     // sample standard deviation of percolation threshold
     public double stddev() {
-        stddev = StdStats.stddev(frequency);
-        return stddev;
+        return StdStats.stddev(frequency);
     }
 
     // low endpoint of 95% confidence interval
