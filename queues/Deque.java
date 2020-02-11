@@ -5,7 +5,7 @@ import edu.princeton.cs.algs4.StdOut;
 
 public class Deque<Item> implements Iterable<Item> {
 
-    private int N;
+    private int n;
     private Node first;
     private Node last;
 
@@ -17,17 +17,17 @@ public class Deque<Item> implements Iterable<Item> {
 
     // construct an empty deque
     public Deque() {
-        N = 0;
+        n = 0;
     }
 
     // is the deque empty?
     public boolean isEmpty() {
-        return N == 0;
+        return n == 0;
     }
 
     // return the number of items on the deque
     public int size() {
-        return N;
+        return n;
     }
 
     private void validate(Item item) {
@@ -44,7 +44,7 @@ public class Deque<Item> implements Iterable<Item> {
         first.next = prevFirst;
         if (prevFirst != null) prevFirst.prev = first;
         else last = first;
-        N++;
+        n++;
     }
 
     // add the item to the back
@@ -56,7 +56,7 @@ public class Deque<Item> implements Iterable<Item> {
         last.prev = prevLast;
         if (prevLast != null) prevLast.next = last;
         else first = last;
-        N++;
+        n++;
     }
 
     private void checkEmpty() {
@@ -71,9 +71,9 @@ public class Deque<Item> implements Iterable<Item> {
         first = first.next;
         if (first == null) last = first;
         else first.prev = null;
-        N--;
+        n--;
         Item item = deleted.item;
-        deleted = null;
+        deleted.next = null;
         return item;
     }
 
@@ -84,9 +84,9 @@ public class Deque<Item> implements Iterable<Item> {
         last = last.prev;
         if (last == null) first = last;
         else last.next = null;
-        N--;
+        n--;
         Item item = deleted.item;
-        deleted = null;
+        deleted.prev = null;
         return item;
     }
 
