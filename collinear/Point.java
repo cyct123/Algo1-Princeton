@@ -142,5 +142,8 @@ public class Point implements Comparable<Point> {
         Point p1 = new Point(2, 3);
         Point p2 = new Point(3,2);
         StdOut.println(p0.slopeOrder().compare(p1, p2));
+        StdOut.println(p0.compareTo(p1));
+        StdOut.println(p0.compareTo(p2));
+        StdOut.println(p1.compareTo(p2));
     }
 }

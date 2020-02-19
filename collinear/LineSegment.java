@@ -9,6 +9,9 @@
  *  DO NOT MODIFY THIS CODE.
  *
  *************************************************************************/
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdDraw;
+
 
 public class LineSegment {
     private final Point p;   // one endpoint of this line segment
@@ -59,6 +62,16 @@ public class LineSegment {
      */
     public int hashCode() {
         throw new UnsupportedOperationException();
+    }
+
+    public static void main(String[] args) {
+        Point p = new Point(1,2);
+        Point q = new Point(2,3);
+        LineSegment l = new LineSegment(p, q);
+        StdOut.println(StdDraw.getPenColor());
+        StdDraw.setPenColor(StdDraw.RED);
+        StdOut.println(StdDraw.getPenColor());
+        l.draw();
     }
 
 }
