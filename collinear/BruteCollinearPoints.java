@@ -8,10 +8,22 @@ public class BruteCollinearPoints {
     private LineSegment[] validSegments;
     private int N;
 
-    public BruteCollinearPoints(Point[] points)    // finds all line segments containing 4 points
-    {
+    private void checkPointsValid(Point[] points) {
         if (points == null)
             throw new IllegalArgumentException("Argument points is null");
+        for (int i = 0; i < points.length - 1; i++) {
+            if (points[i] == null)
+                throw new IllegalArgumentException(i + "th point is null");
+            for (int j = i + 1; j < points.length; j++) {
+                if (points[i] == points[j])
+                    throw new IllegalArgumentException(i + "th and " + j + "th point is same");
+            }
+        }
+    }
+
+    public BruteCollinearPoints(Point[] points)    // finds all line segments containing 4 points
+    {
+        checkPointsValid(points);
         N = 0;
         validSegments = new LineSegment[1];
         int pointsLength = points.length;
