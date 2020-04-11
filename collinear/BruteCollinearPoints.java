@@ -1,32 +1,22 @@
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdDraw;
-
+import java.util.Arrays;
+import java.util.List;
+import java.util.LinkedList;
 
 public class BruteCollinearPoints {
 
-    private LineSegment[] validSegments;
-    private int N;
-
-    private void checkPointsValid(Point[] points) {
-        if (points == null)
-            throw new IllegalArgumentException("Argument points is null");
-        for (int i = 0; i < points.length - 1; i++) {
-            if (points[i] == null)
-                throw new IllegalArgumentException(i + "th point is null");
-            for (int j = i + 1; j < points.length; j++) {
-                if (points[i] == points[j])
-                    throw new IllegalArgumentException(i + "th and " + j + "th point is same");
-            }
-        }
-    }
+    private final LineSegment[] validSegments;
 
     public BruteCollinearPoints(Point[] points)    // finds all line segments containing 4 points
     {
-        checkPointsValid(points);
-        N = 0;
-        validSegments = new LineSegment[1];
-        int pointsLength = points.length;
+        checkNull(points);
+        Point[] sortedPoints = points.clone();
+        Arrays.sort(sortedPoints);
+        checkDuplicate(sortedPoints);
+        final int pointsLength = sortedPoints.length;
+        final List<LineSegment> lineSegments = new LinkedList<>();
         for (int i = 0; i < pointsLength - 3; i++) {
             for (int j = i + 1; j < pointsLength - 2; j++) {
                 for (int m = j + 1; m < pointsLength - 1; m++) {
@@ -38,46 +28,70 @@ public class BruteCollinearPoints {
                         double slope1 = p0.slopeTo(p1);
                         double slope2 = p0.slopeTo(p2);
                         double slope3 = p0.slopeTo(p3);
-                        if ((slope1 == slope2) && (slope1 == slope3)){
-                            if (validSegments.length == N)
-                                segmentsResize(2 * validSegments.length);
-                            Point smallest = findPoint(p0, p1, p2, p3, -1);
-                            Point biggest = findPoint(p0, p1, p2, p3, 1);
-                            validSegments[N++] = new LineSegment(smallest, biggest);
+                        if ((Double.compare(slope1, slope2) == 0) && (Double.compare(slope1, slope3) == 0)) {
+                            Point[] segmentPoints = {p0, p1, p2, p3};
+                            Point smallest = findSmallestPoint(segmentPoints);
+                            Point biggest = findBiggestPoint(segmentPoints);
+                            LineSegment newLine = new LineSegment(smallest, biggest);
+                            lineSegments.add(newLine);
                         }
                     }
                 }
             }
         }
+        validSegments = lineSegments.toArray(new LineSegment[0]);
     }
 
-    private Point findPoint(Point p, Point q, Point r, Point s, int condition) {
-        Point p0 = p;
-        if (p0.compareTo(q) != condition)
-            p0 = q;
-        if (p0.compareTo(r) != condition)
-            p0 = r;
-        if (p0.compareTo(s) != condition)
-            p0 = s;
+    private void checkNull(Point[] points) {
+        if (points == null)
+            throw new IllegalArgumentException("Argument points is null");
+        for (Point p : points) {
+            if (p == null)
+                throw new IllegalArgumentException("Points has null point");
+        }
+    }
+
+    private void checkDuplicate(Point[] points) {
+        for (int i = 0; i < points.length - 1; i++) {
+            if (points[i].compareTo(points[i+1]) == 0)
+                throw new IllegalArgumentException(i + "th and the next point is same");
+        }
+    }
+
+    private Point findSmallestPoint(Point[] points) {
+        Point p0 = null;
+        for (Point p: points) {
+            if (p0 == null)
+                p0 = p;
+            else {
+                if (p0.compareTo(p) < 0)
+                    p0 = p;
+            }
+        }
         return p0;
     }
 
-    private void segmentsResize(int size) {
-        LineSegment[] newSegments = new LineSegment[size];
-        for (int i = 0; i < N; i++)
-            newSegments[i] = validSegments[i];
-        validSegments = newSegments;
+    private Point findBiggestPoint(Point[] points) {
+        Point p0 = null;
+        for (Point p: points) {
+            if (p0 == null)
+                p0 = p;
+            else {
+                if (p0.compareTo(p) > 0)
+                    p0 = p;
+            }
+        }
+        return p0;
     }
 
     public int numberOfSegments()        // the number of line segments
     {
-        return N;
+        return validSegments.length;
     }
 
     public LineSegment[] segments()                // the line segments
     {
-        segmentsResize(N);
-        return validSegments;
+        return validSegments.clone();
     }
 
     public static void main(String[] args) {
